@@ -1,8 +1,11 @@
 {
-  "name": "type-challenges",
+  "name": "typescript-type-gymnastic",
   "version": "1.0.0",
-  "description": "",
+  "description": "- 是本人学习【TypeScript 类型体操通关秘籍】的练习代码",
   "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
