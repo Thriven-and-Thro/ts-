@@ -37,3 +37,32 @@ type UnionToIntersectionResult = UnionToIntersection<{ 1: "1" } | { 2: "2" }>;
 // } & {
 //     2: "2";
 // }
+
+type GetOptional<Obj extends Record<string, any>> = {
+  [Key in keyof Obj as {} extends Pick<Obj, Key> ? Key : never]: Obj[Key];
+};
+type obj1 = {
+  name: string;
+  age?: number;
+};
+type GetOptionalResult = GetOptional<obj1>;
+// type GetOptionalResult = {
+//   age?: number;
+// }
+
+type GetRequired<Obj extends Record<string, any>> = {
+  [Key in keyof Obj as {} extends Pick<Obj, Key> ? never : Key]: Obj[Key];
+};
+type GetRequiredResult = GetRequired<obj1>;
+
+type RemoveIndexSignature<Obj extends Record<string, any>> = {
+  [Key in keyof Obj as Key extends `${infer Str}` ? Str : never]: Obj[Key];
+};
+type obj2 = {
+  [key: string]: any;
+  sleep(): void;
+};
+type RemoveIndexSignatureResult = RemoveIndexSignature<obj2>;
+// type RemoveIndexSignatureResult = {
+//   sleep: () => void;
+// }
