@@ -66,3 +66,18 @@ type RemoveIndexSignatureResult = RemoveIndexSignature<obj2>;
 // type RemoveIndexSignatureResult = {
 //   sleep: () => void;
 // }
+
+class Dong {
+  public name: string;
+  protected age: number;
+  private hobbies: string[];
+
+  constructor() {
+    this.name = "dong";
+    this.age = 20;
+    this.hobbies = ["sleep", "eat"];
+  }
+}
+type ClassPublicProps<Obj extends Record<string, any>> = {
+  [Key in keyof Obj]: Obj[Key];
+};
