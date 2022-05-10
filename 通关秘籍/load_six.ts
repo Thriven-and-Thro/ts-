@@ -81,3 +81,7 @@ class Dong {
 type ClassPublicProps<Obj extends Record<string, any>> = {
   [Key in keyof Obj]: Obj[Key];
 };
+type ClassPublicPropsResult = ClassPublicProps<Dong>;
+// type ClassPublicPropsResult = {
+//   name: string;
+// }
