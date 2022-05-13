@@ -23,4 +23,15 @@ type MergeParams<
     ? OtherParam[Key]
     : never;
 };
-// type ParseQueryString<Str extends string> = Str extends `${infer Param}&${infer Rest}` ? MergeParams<ParseParam<Param>> :
+
+type ParseQueryString<Str extends string> =
+  Str extends `${infer Param}&${infer Rest}`
+    ? MergeParams<ParseParam<Param>, ParseQueryString<Rest>>
+    : ParseParam<Str>;
+
+type ParseQueryStringResult = ParseQueryString<"a=1&b=2&c=3">;
+// type ParseQueryStringResult = {
+//   a: "1";
+//   b: "2";
+//   c: "3";
+// }
