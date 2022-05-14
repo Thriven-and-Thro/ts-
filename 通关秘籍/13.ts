@@ -59,3 +59,39 @@ const res = parseQueryString("a=1&b=2&c=3");
 // res.a
 //     b
 //     c
+
+// Promise.all、Promise.race
+interface PromiseConstructor {
+  all<T extends readonly unknown[] | []>(
+    values: T
+  ): {
+    -readonly [Key in keyof T]: Awaited<T[Key]>;
+  };
+
+  race<T extends unknown[] | []>(values: T): Promise<Awaited<T[number]>>;
+}
+const res1 = Promise.all([
+  Promise.resolve(1),
+  Promise.resolve(2),
+  Promise.resolve(3),
+]);
+// const res1: [number, number, number]
+const res2 = Promise.race([
+  Promise.resolve(1),
+  Promise.resolve(2),
+  Promise.resolve(3),
+]);
+// const res2: Promise<number>
+
+// currying
+type CurriedFunc<Params, Return> = Params extends [infer Arg, ...infer Rest]
+  ? (args: Arg) => CurriedFunc<Rest, Return>
+  : never;
+declare function currying<Func>(
+  fn: Func
+): Func extends (...args: infer Params) => infer Return
+  ? CurriedFunc<Params, Return>
+  : never;
+const func = (a: string, b: number, c: boolean) => {};
+const curriedFunc = currying(func);
+// const curriedFunc: (args: string) => (args: number) => (args: boolean) => never
