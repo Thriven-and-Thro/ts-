@@ -1,37 +1,25 @@
+type MergeValue<One, Other> = One extends Other
+  ? One
+  : Other extends unknown[]
+  ? [One, ...Other]
+  : [One, Other];
 type ParseParam<Param extends string> =
-  Param extends `${infer Key}=${infer Val}`
-    ? {
-        [K in Key]: Val;
-      }
-    : {};
-
-type MergeValue<OneValue, OtherValue> = OneValue extends OtherValue
-  ? OneValue
-  : OtherValue extends unknown[]
-  ? [OneValue, ...OtherValue]
-  : [OneValue, OtherValue];
-
+  Param extends `${infer Key}=${infer Value}` ? { [K in Key]: Value } : {};
 type MergeParams<
-  OneParam extends Record<string, any>,
-  OtherParam extends Record<string, any>
+  One extends Record<string, any>,
+  Other extends Record<string, any>
 > = {
-  [Key in keyof OneParam | keyof OtherParam]: Key extends keyof OneParam
-    ? Key extends keyof OtherParam
-      ? MergeValue<OneParam[Key], OtherParam[Key]>
-      : OneParam[Key]
-    : Key extends keyof OtherParam
-    ? OtherParam[Key]
+  [Key in keyof One | keyof Other]: Key extends keyof One
+    ? Key extends keyof Other
+      ? MergeValue<One, Other>
+      : One[Key]
+    : Key extends keyof Other
+    ? Other[Key]
     : never;
 };
-
 type ParseQueryString<Str extends string> =
   Str extends `${infer Param}&${infer Rest}`
     ? MergeParams<ParseParam<Param>, ParseQueryString<Rest>>
     : ParseParam<Str>;
 
 type ParseQueryStringResult = ParseQueryString<"a=1&b=2&c=3">;
-// type ParseQueryStringResult = {
-//   a: "1";
-//   b: "2";
-//   c: "3";
-// }
