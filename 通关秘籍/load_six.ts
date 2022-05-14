@@ -2,10 +2,6 @@ type IsAny<T> = 1 extends 2 & T ? true : false;
 type IsAnyReult1 = IsAny<any>;
 type IsAnyReult2 = IsAny<unknown>;
 
-type IsUnion<A, B = A> = A extends A ? ([B] extends [A] ? false : true) : never;
-type IsUnionResult1 = IsUnion<1 | 2>;
-type IsUnionResult2 = IsUnion<1>;
-
 type IsNever<T> = [T] extends [never] ? true : false;
 type IsNeverResult = IsNever<never>;
 
